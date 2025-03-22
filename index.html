@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>駐線進入系統...</title>
+  <style>
+    html, body {
+      background: black;
+      color: #00ff00;
+      margin: 0;
+      padding: 0;
+      font-family: monospace;
+      font-size: 16px;
+      overflow: hidden;
+    }
+    #hacker {
+      white-space: pre-wrap;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="hacker">正在連線至目標裝置...
+系統分析中...
+  </div>
+
+  <script>
+    // 入線馬上開始動畫
+    window.onload = () => {
+      // 嘗試全螢幕
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+
+      // 發動震動
+      if (navigator.vibrate) {
+        navigator.vibrate([300, 100, 300, 100, 500]);
+      }
+
+      // 程式碼模擬額多列
+      const hackerDiv = document.getElementById('hacker');
+      hackerDiv.innerText = '';
+      let counter = 0;
+      const interval = setInterval(() => {
+        const line = Math.random().toString(36).substring(2, 20);
+        hackerDiv.innerText += line + '\n';
+        hackerDiv.scrollTop = hackerDiv.scrollHeight;
+        counter++;
+        if (counter > 100) clearInterval(interval);
+      }, 50);
+    }
+  </script>
+</body>
+</html>
