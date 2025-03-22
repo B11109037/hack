@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>駭客入侵中...</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>系統入侵模擬</title>
   <style>
     html, body {
       margin: 0;
@@ -18,8 +18,9 @@
 </head>
 <body>
   <canvas id="matrix"></canvas>
+
   <script>
-    // 自動全螢幕
+    // 嘗試全螢幕
     document.documentElement.requestFullscreen?.().catch(() => {});
     // 啟動震動
     if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
@@ -27,18 +28,21 @@
     const canvas = document.getElementById("matrix");
     const ctx = canvas.getContext("2d");
 
+    // 設定畫布尺寸
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
     const letters = "01";
     const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const drops = Array.from({ length: columns }, () => 1);
+    const columns = Math.floor(canvas.width / fontSize);
+    const drops = Array(columns).fill(1); // 每列的起始位置
 
     function draw() {
+      // 背景半透明黑色，造成拖影感
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      // 綠色文字
       ctx.fillStyle = "#0F0";
       ctx.font = fontSize + "px monospace";
 
@@ -47,14 +51,14 @@
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
         if (drops[i] * fontSize > canvas.height || Math.random() > 0.975) {
-          drops[i] = 0;
+          drops[i] = 0; // 重置回頂端
         }
 
         drops[i]++;
       }
     }
 
-    setInterval(draw, 33); // 每 33 毫秒畫一次
+    setInterval(draw, 33); // 每 33 毫秒畫一次（大約 30fps）
   </script>
 </body>
 </html>
