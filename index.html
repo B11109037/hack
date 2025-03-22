@@ -3,48 +3,58 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>系統入侵中...</title>
+  <title>駭客入侵中...</title>
   <style>
     html, body {
-      background: black;
-      color: #00ff00;
       margin: 0;
       padding: 0;
-      font-family: monospace;
-      font-size: 16px;
       overflow: hidden;
+      background: black;
     }
-    #hacker {
-      white-space: pre-wrap;
-      padding: 10px;
+    canvas {
+      display: block;
     }
   </style>
 </head>
 <body>
-  <div id="hacker">正在連接遠端系統...\n啟動入侵模擬中...</div>
-
+  <canvas id="matrix"></canvas>
   <script>
-    window.onload = () => {
-      // 嘗試全螢幕（部分瀏覽器可能需要點擊觸發）
-      document.documentElement.requestFullscreen?.().catch(() => {});
+    // 自動全螢幕
+    document.documentElement.requestFullscreen?.().catch(() => {});
+    // 啟動震動
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
 
-      // 啟動震動
-      if (navigator.vibrate) {
-        navigator.vibrate([300, 100, 300, 100, 500]);
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const letters = "01";
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }, () => 1);
+
+    function draw() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = "#0F0";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height || Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+
+        drops[i]++;
       }
-
-      // 模擬綠色代碼快速跑
-      const hackerDiv = document.getElementById('hacker');
-      hackerDiv.innerText = '';
-      let counter = 0;
-      const interval = setInterval(() => {
-        const line = Math.random().toString(36).substring(2, 20);
-        hackerDiv.innerText += line + '\n';
-        hackerDiv.scrollTop = hackerDiv.scrollHeight;
-        counter++;
-        if (counter > 100) clearInterval(interval);
-      }, 50);
     }
+
+    setInterval(draw, 33); // 每 33 毫秒畫一次
   </script>
 </body>
 </html>
