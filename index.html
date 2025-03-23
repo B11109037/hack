@@ -36,13 +36,15 @@
     }
   </style>
 </head>
-<body>
+<body onclick="goFullScreen()">
   <canvas id="matrix"></canvas>
   <div id="alertBox">你正在被入侵...</div>
 
   <script>
-    // 嘗試全螢幕
-    document.documentElement.requestFullscreen?.().catch(() => {});
+    function goFullScreen() {
+      document.documentElement.requestFullscreen?.().catch(() => {});
+    }
+
     // 啟動震動
     if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
 
@@ -82,7 +84,7 @@
     setTimeout(() => {
       const alert = document.getElementById('alertBox');
       if (alert) alert.remove();
-    }, 3000);
+    }, 15000);
   </script>
 </body>
 </html>
