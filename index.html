@@ -43,10 +43,8 @@
   <script>
     function goFullScreen() {
       document.documentElement.requestFullscreen?.().catch(() => {});
+      if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
     }
-
-    // 啟動震動
-    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
 
     const canvas = document.getElementById("matrix");
     const ctx = canvas.getContext("2d");
